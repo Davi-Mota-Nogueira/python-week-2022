@@ -1,9 +1,10 @@
 from typing import Optional
 from sqlmodel import SQLModel, Field
-from sqlmodel import select
+# from sqlmodel import select
 from pydantic import validator
 from statistics import mean
 from datetime import datetime
+
 
 class Beer(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True, default=None, index=True)
@@ -23,11 +24,11 @@ class Beer(SQLModel, table=True):
 
     @validator("rate", always=True)
     def calculate_rate(cls, v, values):
-        rate = mean([values["flavor"], values["image"], values["cost"]]) 
+        rate = mean([values["flavor"], values["image"], values["cost"]])
         return int(rate)
 
 
 try:
-    brewdog = Beer(name='brewdog', style='NEIPA', flavor=5, image=8, cost=8)
+    brewdog = Beer(name="brewdog", style="NEIPA", flavor=5, image=8, cost=8)
 except RuntimeError:
     print("Zika demais!")
